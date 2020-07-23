@@ -5,20 +5,11 @@ module CerteuropeSignAPI
     attr_reader :base_uri, :certificate, :key
 
     def init(base_uri:, pkcs12_path:, pkcs12_password:)
-      pkcs12 = extract_pkcs(pkcs12_path, pkcs12_password)
+      pkcs12 = OpenSSL::PKCS12.new(File.read(File.open(path)), password)
 
       @base_uri = base_uri
       @certificate = pkcs12.certificate
       @key = pkcs12.key
-    end
-
-    private
-
-    def extract_pkcs(path, password)
-      OpenSSL::PKCS12.new(
-        File.read(File.open(path)),
-        password
-      )
     end
   end
 
