@@ -1,4 +1,4 @@
 .PHONY: test
 
 test:
-	cutest -r ./test/helper.rb ./test/*_test.rb
+	cutest -r ./test/support/helper.rb ./test/*_test.rb
