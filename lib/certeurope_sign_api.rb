@@ -1,3 +1,5 @@
+require_relative "helpers/hash"
+
 module CerteuropeSignAPI
   module Init
     require "openssl"
