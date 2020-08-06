@@ -1,7 +1,3 @@
-require_relative "helpers/hash"
-
-require_relative "certeurope_sign_api/ephemeral/order"
-
 module CerteuropeSignAPI
   module Init
     require "openssl"
