@@ -1,3 +1,16 @@
+require "json"
+
+require_relative "helpers/object"
+require_relative "helpers/string"
+
+require_relative "certeurope_sign_api/errors"
+require_relative "certeurope_sign_api/helpers"
+require_relative "certeurope_sign_api/http_call"
+
+require_relative "certeurope_sign_api/ephemeral/orders"
+require_relative "certeurope_sign_api/ephemeral/signatures"
+require_relative "certeurope_sign_api/ephemeral/signatures/sign"
+
 module CerteuropeSignAPI
   module Init
     require "openssl"
@@ -14,4 +27,5 @@ module CerteuropeSignAPI
   end
 
   extend Init
+  extend Helpers
 end
