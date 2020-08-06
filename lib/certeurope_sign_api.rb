@@ -1,8 +1,5 @@
 require "json"
 
-require_relative "helpers/object"
-require_relative "helpers/string"
-
 require_relative "certeurope_sign_api/errors"
 require_relative "certeurope_sign_api/helpers"
 require_relative "certeurope_sign_api/http_call"

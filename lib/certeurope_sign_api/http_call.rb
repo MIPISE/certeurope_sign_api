@@ -28,7 +28,7 @@ module CerteuropeSignAPI
 
         full_path = "/#{uri}"
         url = URI.parse("#{CerteuropeSignAPI.base_uri}#{full_path}")
-        data = body.camelize_hash_keys.to_json
+        data = CerteuropeSignAPI.camelize_hash_keys(body).to_json
         headers = request_headers
 
         prepare_http_request(url)
