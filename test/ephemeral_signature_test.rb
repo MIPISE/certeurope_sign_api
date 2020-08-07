@@ -1,5 +1,6 @@
 require "securerandom"
 require "base64"
+require "digest/sha1"
 
 prepare do
   init_certeurope_sign_api
@@ -12,16 +13,16 @@ def create_order_request(user_id)
       firstname: "John",
       lastname: "DOE",
       email: "john.doe@example.fr",
-      mobile: "0611111111",
+      # mobile: "0611111111",
       country: "FR",
-      id_number: "1234567890",
+      # id_number: "1234567890",
       id_type: "IDCARD"
     },
-    proof_folder: {
-      zip_files: ""
-    },
-    client_identifier: user_id,
-    otp_contact: "0611111111",
+    # proof_folder: {
+    #   zip_files: ""
+    # },
+    # client_identifier: user_id,
+    # otp_contact: "0611111111",
     enable_otp: false,
     enable_email: false,
     enable_sharing: false
@@ -33,28 +34,39 @@ def create_order_request(user_id)
 end
 
 def create_signature_request(external_order_request_id)
-  document = File.open(File.join(__dir__, "support", "contract.pdf")).read
+  path = File.join(__dir__, "support", "contract.pdf")
+  document = File.open(path).read
+  hash = Digest::SHA1.file(path).hexdigest
+
+  # body = [
+  #   {
+  #     signature_options: {
+  #       signature_type: "PAdES_BASELINE_LTA",
+  #       digest_algorithm_name: "SHA256",
+  #       signature_packaging_type: "ENVELOPED",
+  #       document_type: "INLINE"
+  #     },
+  #     pdf_signature_options: {
+  #       signature_text_color: 8998,
+  #       signature_text_font_size: 8.1,
+  #       font_family: "Courier",
+  #       font_style: "Normal",
+  #       signature_text: "NEW_sign",
+  #       signature_posX: 10.1,
+  #       signature_posY: 10.1,
+  #       signature_page: 1
+  #     },
+  #     enable_archive: false,
+  #     archiver_names: ["depositaccounttest"],
+  #     to_sign_content: Base64.encode64(document)
+  #   }
+  # ]
 
   body = [
     {
-      signature_options: {
-        signature_type: "PAdES_BASELINE_LTA",
-        digest_algorithm_name: "SHA256",
-        signature_packaging_type: "ENVELOPED",
-        document_type: "INLINE"
-      },
-      pdf_signature_options: {
-        signature_text_color: 8998,
-        signature_text_font_size: 8.1,
-        font_family: "Courier",
-        font_style: "Normal",
-        signature_text: "NEW_sign",
-        signature_posX: 10.1,
-        signature_posY: 10.1,
-        signature_page: 1
-      },
+      signature_options: {},
       enable_archive: false,
-      archiver_names: ["depositaccounttest"],
+      hash: hash,
       to_sign_content: Base64.encode64(document)
     }
   ]
@@ -97,6 +109,7 @@ test "full signature process" do
 
   # Create the signature request
   signature_request = create_signature_request(external_order_request_id)
+  puts(signature_request[:body].inspect)
   assert_equal signature_request[:code], 200
 
   # Launch the signature process
