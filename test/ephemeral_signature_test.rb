@@ -1,6 +1,5 @@
 require "securerandom"
 require "base64"
-require "digest/sha1"
 
 prepare do
   init_certeurope_sign_api
@@ -33,7 +32,7 @@ def create_order_request(user_id)
   CerteuropeSignAPI.parse_response(response)
 end
 
-def create_signature_request(order_request_id)
+def create_signature_request(external_order_request_id)
   document = File.open(File.join(__dir__, "support", "contract.pdf")).read
 
   body = [
@@ -63,17 +62,16 @@ def create_signature_request(order_request_id)
   response =
     CerteuropeSignAPI::Ephemeral::Signatures.create(
       body: body,
-      order_request_id: order_request_id
+      external_order_request_id: external_order_request_id
     )
 
   CerteuropeSignAPI.parse_response(response)
 end
 
-
-def sign_signature_request(order_request_id)
+def sign_signature_request(external_order_request_id)
   response =
     CerteuropeSignAPI::Ephemeral::Signatures::Sign.create(
-      order_request_id: order_request_id
+      external_order_request_id: external_order_request_id
     )
 
   CerteuropeSignAPI.parse_response(response)
@@ -90,19 +88,19 @@ end
 
 test "full signature process" do
   user_id = SecureRandom.uuid
+  external_order_request_id = "MIPISE-#{user_id}"
 
   # Create the order request
   order_request = create_order_request(user_id)
   assert_equal order_request[:code], 200
-  assert_equal order_request[:body][:external_order_request_id], "MIPISE-#{user_id}"
-  order_request_id = order_request[:body][:order_request_id]
+  assert_equal order_request[:body][:external_order_request_id], external_order_request_id
 
   # Create the signature request
-  signature_request = create_signature_request(order_request_id)
+  signature_request = create_signature_request(external_order_request_id)
   assert_equal signature_request[:code], 200
 
   # Launch the signature process
-  signature = sign_signature_request(order_request_id)
+  signature = sign_signature_request(external_order_request_id)
   assert_equal signature[:code], 200
   assert_equal signature[:status], "SIGNED"
   signature_request_id = signature[:signature_request_id]
