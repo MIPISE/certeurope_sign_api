@@ -1,4 +1,5 @@
 require "json"
+require "byebug"
 
 require_relative "certeurope_sign_api/errors"
 require_relative "certeurope_sign_api/helpers"

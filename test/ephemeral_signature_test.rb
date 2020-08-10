@@ -36,38 +36,31 @@ end
 def create_signature_request(external_order_request_id)
   path = File.join(__dir__, "support", "contract.pdf")
   document = File.open(path).read
+  base64 = Base64.encode64(document)
   hash = Digest::SHA1.file(path).hexdigest
-
-  # body = [
-  #   {
-  #     signature_options: {
-  #       signature_type: "PAdES_BASELINE_LTA",
-  #       digest_algorithm_name: "SHA256",
-  #       signature_packaging_type: "ENVELOPED",
-  #       document_type: "INLINE"
-  #     },
-  #     pdf_signature_options: {
-  #       signature_text_color: 8998,
-  #       signature_text_font_size: 8.1,
-  #       font_family: "Courier",
-  #       font_style: "Normal",
-  #       signature_text: "NEW_sign",
-  #       signature_posX: 10.1,
-  #       signature_posY: 10.1,
-  #       signature_page: 1
-  #     },
-  #     enable_archive: false,
-  #     archiver_names: ["depositaccounttest"],
-  #     to_sign_content: Base64.encode64(document)
-  #   }
-  # ]
 
   body = [
     {
-      signature_options: {},
+      signature_options: {
+        signature_type: "PAdES_BASELINE_LTA",
+        digest_algorithm_name: "SHA256",
+        signature_packaging_type: "ENVELOPED",
+        document_type: "INLINE"
+      },
+      # pdf_signature_options: {
+      #   signature_text_color: 8998,
+      #   signature_text_font_size: 8.1,
+      #   font_family: "Courier",
+      #   font_style: "Normal",
+      #   signature_text: "NEW_sign",
+      #   signature_posX: 10.1,
+      #   signature_posY: 10.1,
+      #   signature_page: 1
+      # },
       enable_archive: false,
-      hash: hash,
-      to_sign_content: Base64.encode64(document)
+      archiver_names: ["depositaccounttest"],
+      # hash: hash,
+      to_sign_content: base64
     }
   ]
 
