@@ -1,4 +1,8 @@
 *.env
 *.gem
 *.p12
+*.DS_Store
+.idea/
+.byebug_history
 /tmp/
+/test/support/signed_document.pdf

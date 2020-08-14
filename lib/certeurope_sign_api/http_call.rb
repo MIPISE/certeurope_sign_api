@@ -1,5 +1,4 @@
 require "net/http"
-require "base64"
 
 module CerteuropeSignAPI
   module HTTPCall
@@ -16,7 +15,7 @@ module CerteuropeSignAPI
           end
         else
           define_method(method.to_s) do |uri|
-            request(uri, method: method_name.to_s.upcase)
+            request(uri, method: method.to_s.upcase)
           end
         end
       end

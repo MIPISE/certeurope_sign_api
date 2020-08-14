@@ -5,13 +5,7 @@ module CerteuropeSignAPI
         extend Helpers
 
         class << self
-          def create(
-            async_post_url: nil,
-            external_order_request_id: nil,
-            mode: "SYNC",
-            order_request_id:,
-            body:
-          )
+          def create(external_order_request_id:, order_request_id:, body:, mode: "SYNC", async_post_url: "/")
             CerteuropeSignAPI::HTTPCall.post(
               generate_uri({
                 async_post_url: async_post_url,
