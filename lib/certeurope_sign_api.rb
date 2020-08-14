@@ -12,15 +12,19 @@ module CerteuropeSignAPI
   module Init
     require "openssl"
 
-    attr_reader :base_uri, :certificate, :key, :signature_template
+    attr_reader :base_uri, :certificate, :key, :default_pdf_signature_options
 
-    def init(base_uri:, pkcs12_path:, pkcs12_password:, signature_template_options: nil)
+    def init(base_uri:, pkcs12_path:, pkcs12_password:)
       pkcs12 = OpenSSL::PKCS12.new(File.read(File.open(pkcs12_path)), pkcs12_password)
 
       @base_uri = base_uri
       @certificate = pkcs12.certificate
       @key = pkcs12.key
-      @signature_template = signature_template_options
+      @default_pdf_signature_options = {}
+    end
+
+    def set_default_pdf_signature_options(options)
+      @default_pdf_signature_options = options
     end
   end
   extend Init

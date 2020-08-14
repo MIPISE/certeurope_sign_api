@@ -24,19 +24,19 @@ end
 def create_signature_request(external_order_request_id, order_request_id, document_path, signature_opts={})
   document = File.open(document_path, 'rb').read
   sign_content = Base64.strict_encode64(document)
-  signature_options = CerteuropeSignAPI.signature_template.merge(signature_opts)
+  signature_options = CerteuropeSignAPI.default_pdf_signature_options.merge(signature_opts)
   unless signature_options[:image_path].nil?
     signature_image = File.open(signature_options[:image_path], 'rb').read
     sign_image_content = Base64.strict_encode64(signature_image)
   end
 
   if signature_opts.has_key?(:lines) && signature_opts[:lines].size > 0
-    delta_line = (CerteuropeSignAPI.signature_template[:height] - 2) / signature_opts[:lines].size
+    delta_line = (signature_options[:height] - 2) / signature_opts[:lines].size
     lines_options =
       signature_opts[:lines].inject([]) do |memo, line_opts|
-        default_line_options = CerteuropeSignAPI.signature_template[:lines_default_options] || {}
+        default_line_options = signature_options[:lines_default_options] || {}
         line_options = default_line_options.merge(line_opts)
-        y_pos = CerteuropeSignAPI.signature_template[:height] - 1 - (memo.size * delta_line) - line_options[:line_font_size]
+        y_pos = signature_options[:height] - 1 - (memo.size * delta_line) - line_options[:line_font_size]
         memo << line_options.merge({ line_pos_y_in_image: y_pos })
         memo
       end
