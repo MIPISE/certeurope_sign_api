@@ -46,7 +46,7 @@ module CerteuropeSignAPI
             p_uri = URI.parse(CerteuropeSignAPI.proxy_url)
             Net::HTTP.new(uri.host, uri.port, p_uri.hostname, p_uri.port, p_uri.user, p_uri.password)
           else
-            Net::HTTP.new(uri.host, uri.port, p_uri.hostname)
+            Net::HTTP.new(uri.host, uri.port)
           end
 
         http.use_ssl = true
