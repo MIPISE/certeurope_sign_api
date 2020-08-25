@@ -1,6 +1,6 @@
 Gem::Specification.new do |s|
   s.name = "certeurope_sign_api"
-  s.version = "0.1.1"
+  s.version = "0.1.3"
   s.summary = "Gem for Certeurope SignAPI"
   s.description = "Gem for Certeurope SignAPI"
   s.author = "Guillaume BOUDON"
