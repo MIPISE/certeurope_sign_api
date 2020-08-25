@@ -14,13 +14,14 @@ module CerteuropeSignAPI
 
     attr_reader :base_uri, :certificate, :key, :default_pdf_signature_options
 
-    def init(base_uri:, pkcs12_path:, pkcs12_password:)
+    def init(base_uri:, pkcs12_path:, pkcs12_password:, proxy_url: nil)
       pkcs12 = OpenSSL::PKCS12.new(File.read(File.open(pkcs12_path)), pkcs12_password)
 
       @base_uri = base_uri
       @certificate = pkcs12.certificate
       @key = pkcs12.key
       @default_pdf_signature_options = {}
+      @proxy_url = proxy_url
     end
 
     def set_default_pdf_signature_options(options)
