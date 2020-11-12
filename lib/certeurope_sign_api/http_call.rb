@@ -50,7 +50,7 @@ module CerteuropeSignAPI
           end
 
         http.use_ssl = true
-        http.verify_mode = OpenSSL::SSL::VERIFY_PEER
+        http.verify_mode = CerteuropeSignAPI.ssl_verification
         http.cert = CerteuropeSignAPI.certificate
         http.key = CerteuropeSignAPI.key
 
