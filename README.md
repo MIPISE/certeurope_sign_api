@@ -19,6 +19,8 @@ CerteuropeSignAPI.init(
   base_uri:    ENV["CERTEUROPE_SIGN_API_URL"],
   pkcs12_path: File.join(Rails.root, ENV["CERTEUROPE_SIGN_API_PKCS12_PATH"]),
   pkcs12_password: ENV["CERTEUROPE_SIGN_API_PKCS12_PASSWORD"],
+  proxy_url: ENV["CERTEUROPE_SIGN_API_PROXY_URL"], # Optional for sandbox or static server IP, default: `nil`
+  ssl_verification: ENV["CERTEUROPE_SIGN_API_SSL_VERIFICATION"] # Optional, default: `OpenSSL::SSL::VERIFY_PEER`, can be set to `OpenSSL::SSL::VERIFY_NONE` to disable it
 )
 ```
 
@@ -33,18 +35,17 @@ CerteuropeSignAPI.set_default_pdf_signature_options(
     y: 200, # default y position (px) of the signature in a document
     image_path: "path to signature template image",
     # Options when adding lines of text on the signature's template's image
-    # (like date and signatory's name) 
-    lines_default_options: 
-      {
-        line_color: 0, # default color
-        line_font_size: 8, # default font size
-        line_font: "Times_roman", # default font
-        line_pos_x_in_image: 45 # # default x position (px) in the image
-      }
+    # (like date and signatory's name)
+    lines_default_options: {
+      line_color: 0, # default color
+      line_font_size: 8, # default font size
+      line_font: "Times_roman", # default font
+      line_pos_x_in_image: 45 # # default x position (px) in the image
+    }
   }
 )
 ```
- 
+
 The signature_pdf_options in the Certeurope signature request can be left empty, but if so the document returned by Certeurope after the signature succeeds won't have any visible evidence of the signature. 
 
 ## Tests
