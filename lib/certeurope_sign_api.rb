@@ -8,6 +8,10 @@ require_relative "certeurope_sign_api/ephemeral/orders"
 require_relative "certeurope_sign_api/ephemeral/signatures"
 require_relative "certeurope_sign_api/ephemeral/signatures/sign"
 
+require_relative "certeurope_sign_api/ephemeral/trigger/signatures"
+require_relative "certeurope_sign_api/ephemeral/trigger/signatures/validate"
+require_relative "certeurope_sign_api/ephemeral/trigger/signatures/sign"
+
 module CerteuropeSignAPI
   module Init
     require "openssl"
