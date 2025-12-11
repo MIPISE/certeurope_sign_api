@@ -9,7 +9,7 @@ module CerteuropeSignAPI
     def parse_response(response)
       {
         code: response.code.to_i,
-        body: underscore_hash_keys(JSON.parse(response.body))
+        body: response.body&.empty? ? nil : underscore_hash_keys(JSON.parse(response.body))
       }
     end
 
