@@ -1,5 +1,4 @@
 require_relative "../../lib/certeurope_sign_api"
-gem "dotenv", "= 2.7.6"
 require "dotenv"
 Dotenv.load(File.join(__dir__, ".env"))
 

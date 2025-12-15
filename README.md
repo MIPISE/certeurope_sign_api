@@ -46,11 +46,11 @@ CerteuropeSignAPI.set_default_pdf_signature_options(
 )
 ```
 
-The signature_pdf_options in the Certeurope signature request can be left empty, but if so the document returned by Certeurope after the signature succeeds won't have any visible evidence of the signature. 
+The signature_pdf_options in the Certeurope signature request can be left empty, but if so the document returned by Certeurope after the signature succeeds won't have any visible evidence of the signature.
 
 ## Tests
 
-1. Install dependencies using the [dep](https://github.com/djanowski/dep/) command `dep install`.
+1. Install or update dependencies using `bundle`.
 2. Since it is mandatory for tests to connect to a sandbox Certeurope SignAPI, we need to include your certificate:
     - append your certificate to `test/support/certificate.p12`
     - append a .env file to `test/support/.env`. It should be based on `env.template` from the same directory
