@@ -10,7 +10,6 @@ Gem::Specification.new do |s|
 
   s.files = `git ls-files`.split("\n")
 
-  s.add_dependency "dotenv"
-
-  s.add_development_dependency "cutest"
+  s.add_development_dependency "cutest", "~> 1.2"
+  s.add_development_dependency "dotenv", "~> 3.2"
 end
